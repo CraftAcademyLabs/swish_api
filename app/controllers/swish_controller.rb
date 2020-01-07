@@ -7,24 +7,24 @@ class SwishController < ApplicationController
       amount: 1000,
       currency: 'SEK'
     }
-    response = post_request('https://mss.cpc.getswish.net/swish-cpcapi/api/v1/paymentrequests/', payload)
+    response = swish_call('post', 'https://mss.cpc.getswish.net/swish-cpcapi/api/v1/paymentrequests/', payload)
     render json: response.headers
   end
 
   def callback
-    # binding.pry
+    puts 'PAYMENT SUCCESSFUL'
   end
 
   private
 
-  def post_request(url, payload = {})
+  def swish_call(method, url, payload = {})
     p12 = OpenSSL::PKCS12.new(File.read("Swish_Merchant_TestCertificate_1231181189.p12"), "swish")
     cert_store = OpenSSL::X509::Store.new
     p12.ca_certs.each do | cert |
       cert_store.add_cert(cert)
     end
     RestClient::Request.execute({
-      method: :post,
+      method: method.to_sym,
       url: url,
       payload: payload.to_json,
       ssl_client_cert: p12.certificate,
