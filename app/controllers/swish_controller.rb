@@ -2,12 +2,13 @@ class SwishController < ApplicationController
 
   def create_payment
     payload = {
-      callbackUrl: 'https://dac2474d.ngrok.io/swish/callback',
+      callbackUrl: 'https://7b493249.ngrok.io/swish/callback',
       payeeAlias: '1231181189',
+      payerAlias: '46733235555', # cell phone number of the payer, it is mandatory for web applicaitons
       amount: 1000,
       currency: 'SEK'
     }
-    response = swish_call('post', 'https://mss.cpc.getswish.net/swish-cpcapi/api/v1/paymentrequests/', payload)
+    response = swish_call(:post, 'https://mss.cpc.getswish.net/swish-cpcapi/api/v1/paymentrequests/', payload)
     render json: response.headers
   end
 
@@ -24,7 +25,7 @@ class SwishController < ApplicationController
       cert_store.add_cert(cert)
     end
     RestClient::Request.execute({
-      method: method.to_sym,
+      method: method,
       url: url,
       payload: payload.to_json,
       ssl_client_cert: p12.certificate,
