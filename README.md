@@ -100,11 +100,11 @@ At this point you need to expose your local server and have a URL with HTTPS. Ha
 
 The params for this call:
 
-- `callbackUrl`: Mandatory. URL that Swish will use to notify caller about the outcome of the Payment request. The URL has to use HTTPS.
-- `payeeAlias`: Mandatory. The Swish number of the payee. The PKCS12 certificate should have the same number. Swish will check this and return error if the number does not match.
-- `payerAlias`: The registered cellphone number of the person that makes the payment. It can only contain numbers and has to be at least 8 and at most 15 numbers. It also needs to match the following format in order to be found in Swish: country code + cellphone number (without leading zero). E.g.: 46712345678
-- `amount`: The amount of money to pay. The amount cannot be less than 1 SEK and not more than 999999999999.99 SEK. Valid value has to be all numbers or with 2-digit decimal separated by a period. Number data type
-- `currency`: The currency to use. **The only currently supported value is SEK**
+- `callbackUrl`: **Mandatory**. URL that Swish will use to notify caller about the outcome of the Payment request. The URL has to use HTTPS.
+- `payeeAlias`: **Mandatory**. The Swish number of the payee. The PKCS12 certificate should have the same number. Swish will check this and return error if the number does not match.
+- `payerAlias`: **Mandatory for Web**. The registered cellphone number of the person that makes the payment. It can only contain numbers and has to be at least 8 and at most 15 numbers. It also needs to match the following format in order to be found in Swish: country code + cellphone number (without leading zero). E.g.: 46712345678
+- `amount`: **Mandatory**. The amount of money to pay. The amount cannot be less than 1 SEK and not more than 999999999999.99 SEK. Valid value has to be all numbers or with 2-digit decimal separated by a period. Number data type
+- `currency`: **Mandatory**. The currency to use. **The only currently supported value is SEK**
 
 If the call is successful it should return an empty response body with headers that look something like this:
 
@@ -164,7 +164,7 @@ In this implementation we will not utilize the callback URL, but use the `locati
     payload = {
       callbackUrl: 'https://7b493249.ngrok.io/swish/callback',
       payeeAlias: '1231181189',
-      payerAlias: '46733235555', # cell phone number of the payer, it is mandatory for web applicaitons
+      payerAlias: '46733235555',
       amount: 1000,
       currency: 'SEK'
     }

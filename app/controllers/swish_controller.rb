@@ -4,7 +4,7 @@ class SwishController < ApplicationController
     payload = {
       callbackUrl: 'https://7b493249.ngrok.io/swish/callback',
       payeeAlias: '1231181189',
-      payerAlias: '46733235555', # cell phone number of the payer, it is mandatory for web applicaitons
+      payerAlias: '46733235555',
       amount: 1000,
       currency: 'SEK'
     }
