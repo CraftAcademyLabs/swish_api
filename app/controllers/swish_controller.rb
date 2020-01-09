@@ -9,7 +9,8 @@ class SwishController < ApplicationController
       currency: 'SEK'
     }
     response = swish_call(:post, 'https://mss.cpc.getswish.net/swish-cpcapi/api/v1/paymentrequests/', payload)
-    render json: response.headers
+    body = ping_swish(response.headers[:location])
+    render json: body
   end
 
   def callback
@@ -17,6 +18,13 @@ class SwishController < ApplicationController
   end
 
   private
+
+  def ping_swish(order)
+    sleep 4
+    response = swish_call(:get, order)
+    body = JSON.parse(response.body)
+    body['status'] != 'CREATED' ? body : ping_swish(order)
+  end
 
   def swish_call(method, url, payload = {})
     p12 = OpenSSL::PKCS12.new(File.read("Swish_Merchant_TestCertificate_1231181189.p12"), "swish")
