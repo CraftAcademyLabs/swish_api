@@ -78,6 +78,11 @@ end
 - Finally we add the client certificate, key and store to our call and point to the location of the root CA certificate `Swish_TLS_RootCA.pem`.
 - This method will allow us to make contact with the Swish API.
 
+## NGROK
+
+Ngrok is a multiplatform tunnelling, reverse proxy software that establishes secure tunnels from a public endpoint such as internet to a locally running network service.
+You have to download and setup [Ngrok](https://ngrok.com/) in the project folder and run it to tunnel your Puma server. You will alsso have to update your callback Url to the one that Ngrok opens for you. 
+
 ## Payment Requests
 
 ### Create a payment request
